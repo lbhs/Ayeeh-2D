@@ -20,9 +20,15 @@ public class RayCaster : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                #if UNITY_EDITOR
-                Debug.DrawLine(ray.origin,hit.point);
-                #endif
+#if UNITY_EDITOR
+                Debug.DrawLine(ray.origin, hit.point);
+#endif
+
+                if (hit.transform.GetComponent<FlyingObjectScript>() != null)
+                {
+                    FlyingObjectScript obj = hit.transform.GetComponent<FlyingObjectScript>();
+                    obj.HitWithLazar();
+                }
             }
         }
     }

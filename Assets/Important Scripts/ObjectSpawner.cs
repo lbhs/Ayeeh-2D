@@ -7,11 +7,18 @@ public class ObjectSpawner : MonoBehaviour
 {
     public List<PotentialObjectClass> PotentialObjects = new List<PotentialObjectClass>();
 
-    public float spawnSphereRadius = 15;
-    public float SpawnRate = 2f;
+    [Header("Rate of Spawn")]
+    public float TimeInBetweenSpawns = 2f;
     public float SpawnRateVariation = .5f;
 
+    [Header("Where to Spawn")]
+    [Tooltip("If 0, objects will spawn in a circle, but 1 would give you a sphere")]
+    public float ZScaleVariation = 1;
+    [Tooltip("Objects fly towards the center, use this to vary that")]
+    public float ObjectTargetVariation = 3;
 
+    [Header("Sphere properties")]
+    public float spawnSphereRadius = 15;
     public Color GizmosColor = new Color(1, 0, 0.9953942f, 0.08627451f);
 
     void Start()
@@ -29,7 +36,7 @@ public class ObjectSpawner : MonoBehaviour
             if (obj != null)
             {
                 //Random position on the 0 Z-plane
-                Vector3 pos = new Vector3(Random.Range(1f, -1f), Random.Range(1f, -1f), Random.Range(1f, -1f));
+                Vector3 pos = new Vector3(Random.Range(1f, -1f), Random.Range(1f, -1f), Random.Range(ZScaleVariation, -ZScaleVariation));
                 pos.Normalize();
                 pos = pos * spawnSphereRadius;
 
@@ -38,7 +45,14 @@ public class ObjectSpawner : MonoBehaviour
                 go.transform.localPosition = pos;
                 go.transform.rotation = Random.rotation;
 
-                yield return new WaitForSeconds(SpawnRate + Random.Range(SpawnRateVariation, -SpawnRateVariation));
+                //Set up moving the object
+                if (go.GetComponent<FlyingObjectScript>() != null)
+                {
+                    Vector3 randPos = new Vector3(Random.Range(1f, -1f), Random.Range(1f, -1f), Random.Range(1f, -1f)) * ObjectTargetVariation;
+                    go.GetComponent<FlyingObjectScript>().TargetPosition = transform.position + randPos;
+                }
+
+                yield return new WaitForSeconds(TimeInBetweenSpawns + Random.Range(SpawnRateVariation, -SpawnRateVariation));
             }
         }
     }
