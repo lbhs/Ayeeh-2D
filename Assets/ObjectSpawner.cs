@@ -2,47 +2,85 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//spawn objects in a sphere around this gameobject
 public class ObjectSpawner : MonoBehaviour
 {
     public List<PotentialObjectClass> PotentialObjects = new List<PotentialObjectClass>();
 
-    private int TotalWeight = 0;
-
+    public float spawnSphereRadius = 15;
     public float SpawnRate = 2f;
-    public float Variation = .5f;
+    public float SpawnRateVariation = .5f;
 
-    // Start is called before the first frame update
+
+    public Color GizmosColor = new Color(1, 0, 0.9953942f, 0.08627451f);
+
     void Start()
     {
-        foreach (var item in PotentialObjects)
-        {
-            TotalWeight += item.weight;
-        }
-        foreach (var item in PotentialObjects)
-        {
-            StartCoroutine("SpawnObj", item);
-        }
+        StartCoroutine("SpawnObj");
     }
 
-    // Update is called once per frame
-    void Update()
+    //loops every so often
+    IEnumerator SpawnObj()
     {
-
-    }
-
-    IEnumerator SpawnObj(PotentialObjectClass obj)
-    {
-        while (true == true)
+        while (true == true) //will run forever 
         {
-            if (obj.TimeUntilSpawn > Time.time)
+            PotentialObjectClass obj = ChooseRandomObj();
+
+            if (obj != null)
             {
-                Vector3 pos = new Vector3(Random.Range(1f, -1f), Random.Range(1f, -1f), 0);
+                //Random position on the 0 Z-plane
+                Vector3 pos = new Vector3(Random.Range(1f, -1f), Random.Range(1f, -1f), Random.Range(1f, -1f));
                 pos.Normalize();
-                pos = pos * 15f;
-                GameObject.Instantiate(obj.Prefab, pos, Random.rotation); //To-do: add object pooling
-                yield return new WaitForSeconds(SpawnRate + Random.Range(Variation, -Variation));
+                pos = pos * spawnSphereRadius;
+
+                //To-do: add object pooling
+                GameObject go = GameObject.Instantiate(obj.Prefab, transform);
+                go.transform.localPosition = pos;
+                go.transform.rotation = Random.rotation;
+
+                yield return new WaitForSeconds(SpawnRate + Random.Range(SpawnRateVariation, -SpawnRateVariation));
             }
         }
+    }
+
+    PotentialObjectClass ChooseRandomObj()
+    {
+        PotentialObjectClass selectedObject = null;
+
+        //get total weight
+        float TotalWeight = 0;
+        foreach (var item in PotentialObjects)
+        {
+            if (item.TimeUntilSpawn <= Time.time)//wait to introduce some objects
+            {
+                TotalWeight = TotalWeight + item.weight;
+            }
+        }
+
+        if (TotalWeight == 0) { return null; }
+
+        //Weighted random
+        float randNum = Random.Range(0, TotalWeight);
+
+        foreach (var item in PotentialObjects)
+        {
+            if (randNum < item.weight)
+            {
+                selectedObject = item;
+                break; //exit foreach loop if we have selected an object
+            }
+            randNum = randNum - item.weight;
+        }
+
+        //done
+        return selectedObject;
+    }
+
+    //visualization of spawning area
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = GizmosColor;
+        Gizmos.DrawSphere(transform.position, spawnSphereRadius + 1);
     }
 }
 
