@@ -47,9 +47,13 @@ MonoBehaviour:
   - Prefab: {fileID: 370135708760029531, guid: eebeaaf55c4d92a4eb31782b2332c229, type: 3}
     weight: 2
     TimeUntilSpawn: 0
+    poolSize: 30
+    objects: []
   - Prefab: {fileID: 370135708760029531, guid: 0a7d1a4db369ca9499772e2c349bdd88, type: 3}
     weight: 3
     TimeUntilSpawn: 5
+    poolSize: 30
+    objects: []
   TimeInBetweenSpawns: 4
   SpawnRateVariation: 0.5
   ZScaleVariation: 0.5

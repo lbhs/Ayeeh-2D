@@ -370,7 +370,7 @@ PrefabInstance:
     - target: {fileID: 2659080861468503211, guid: f0084366c2d2c4047bab200d136e06ea,
         type: 3}
       propertyPath: TimeInBetweenSpawns
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2659080861468503212, guid: f0084366c2d2c4047bab200d136e06ea,
         type: 3}

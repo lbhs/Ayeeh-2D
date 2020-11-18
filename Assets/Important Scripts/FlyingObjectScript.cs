@@ -20,7 +20,12 @@ public class FlyingObjectScript : MonoBehaviour
     //public UnityEvent OnHit;
 
     // Start is called before the first frame update
-    void OnEnable()
+    private void Start()
+    {
+        SetUp();
+    }
+
+    public void SetUp()
     {
         //set up variables
         rb = GetComponent<Rigidbody>();

@@ -137,6 +137,7 @@ public class PotentialObjectClass
             objects[counter].position = pos;
             objects[counter].rotation = quat;
             objects[counter].gameObject.SetActive(true);
+            objects[counter].GetComponent<FlyingObjectScript>().SetUp();
             go = objects[counter].gameObject;
         }
         return go;
