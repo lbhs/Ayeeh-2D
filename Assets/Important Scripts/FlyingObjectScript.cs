@@ -15,12 +15,16 @@ public class FlyingObjectScript : MonoBehaviour
 
     public bool RandomAngularVelocity = true;
 
-    public UnityEvent OnHit;
+    private ParticleManager particleToPlay;
+
+    //public UnityEvent OnHit;
 
     // Start is called before the first frame update
     void Start()
     {
+        //set up variables
         rb = GetComponent<Rigidbody>();
+        particleToPlay = GameObject.FindObjectOfType<ParticleManager>();
 
         //calculate direction
         TargetPosition = (TargetPosition - transform.position).normalized;
@@ -33,7 +37,7 @@ public class FlyingObjectScript : MonoBehaviour
         }
 
         //set angular velocity
-        if(RandomAngularVelocity)
+        if (RandomAngularVelocity)
         {
             rb.angularVelocity = Random.insideUnitSphere;
         }
@@ -45,6 +49,9 @@ public class FlyingObjectScript : MonoBehaviour
     public void HitWithLazar()
     {
         //print("I got hit!" + gameObject.name);
-        OnHit.Invoke();
+        //OnHit.Invoke();
+        particleToPlay.SpawnParticle(transform.position, Quaternion.identity);
+        
+        gameObject.SetActive(false);
     }
 }
