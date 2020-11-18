@@ -12,7 +12,7 @@ public class ParticleManager : MonoBehaviour
 
     public void SpawnParticle(Vector3 pos, Quaternion quat)
     {
-        if (particles.Count <= 10)
+        if (particles.Count <= poolSize)
         {
             GameObject go = GameObject.Instantiate(prefab, pos, quat, transform);
             particles.Add(go.transform);

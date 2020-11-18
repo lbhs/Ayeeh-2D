@@ -41,7 +41,7 @@ public class ObjectSpawner : MonoBehaviour
                 pos = pos * spawnSphereRadius;
 
                 //To-do: add object pooling
-                GameObject go = GameObject.Instantiate(obj.Prefab, transform);
+                GameObject go = obj.SpawnParticle(transform.position, transform.rotation, transform);
                 go.transform.localPosition = pos;
                 go.transform.rotation = Random.rotation;
 
@@ -107,4 +107,38 @@ public class PotentialObjectClass
     public int weight = 1;
     [Tooltip("These won't show up until x seconds after")]
     public int TimeUntilSpawn;
+
+    [Tooltip("The amount of objects that can be on the scene at one time")]
+    public int poolSize = 30;
+
+    [HideInInspector]
+    public List<Transform> objects = new List<Transform>();
+    private int counter = 0;
+
+    //object pooling (not spawning/destorying all the time (reuseing))
+    public GameObject SpawnParticle(Vector3 pos, Quaternion quat, Transform parent = null)
+    {
+        GameObject go = null;
+        if (objects.Count <= poolSize)
+        {
+            go = GameObject.Instantiate(Prefab, pos, quat, parent);
+            objects.Add(go.transform);
+        }
+        else
+        {
+            if (counter == poolSize)
+            {
+                counter = 0;
+            }
+            else
+            {
+                counter++;
+            }
+            objects[counter].position = pos;
+            objects[counter].rotation = quat;
+            objects[counter].gameObject.SetActive(true);
+            go = objects[counter].gameObject;
+        }
+        return go;
+    }
 }

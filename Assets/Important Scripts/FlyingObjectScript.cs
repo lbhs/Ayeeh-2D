@@ -20,7 +20,7 @@ public class FlyingObjectScript : MonoBehaviour
     //public UnityEvent OnHit;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         //set up variables
         rb = GetComponent<Rigidbody>();
@@ -41,6 +41,9 @@ public class FlyingObjectScript : MonoBehaviour
         {
             rb.angularVelocity = Random.insideUnitSphere;
         }
+        else{
+            rb.angularVelocity = Vector3.zero;
+        }
 
         //set velocity
         rb.velocity = TargetPosition * speed;
@@ -51,7 +54,7 @@ public class FlyingObjectScript : MonoBehaviour
         //print("I got hit!" + gameObject.name);
         //OnHit.Invoke();
         particleToPlay.SpawnParticle(transform.position, Quaternion.identity);
-        
+
         gameObject.SetActive(false);
     }
 }
