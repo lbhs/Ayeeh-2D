@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 370135708760029508}
   - component: {fileID: -539021280628582543}
   - component: {fileID: 8490465058045937178}
-  - component: {fileID: 4771328520954772387}
   - component: {fileID: 8794319299645068876}
   m_Layer: 0
   m_Name: Sphere
@@ -67,44 +66,6 @@ MonoBehaviour:
   speed: 15
   variationInSpeed: 3
   RandomAngularVelocity: 1
-  OnHit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 370135708760029531}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4771328520954772387}
-        m_MethodName: InstantiatePrefab
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4771328520954772387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370135708760029531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e671eef416f219c438b3b3de72e2ebd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 6802473963225925122, guid: 97924b454160870408aea2513a542cff, type: 3}
 --- !u!135 &8794319299645068876
 SphereCollider:
   m_ObjectHideFlags: 0
